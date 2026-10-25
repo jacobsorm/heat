@@ -1,4 +1,4 @@
-package main
+package heat
 
 type DeviceResponse struct {
 	ID                string            `json:"id"`

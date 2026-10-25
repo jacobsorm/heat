@@ -1,4 +1,4 @@
-package main
+package heat
 
 import (
 	"encoding/json"
