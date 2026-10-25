@@ -11,6 +11,10 @@ import (
 	"time"
 )
 
+const (
+	baseURL = "https://api.myuplink.com"
+)
+
 type ErrorUnauthorized struct{}
 
 func (e *ErrorUnauthorized) Error() string {
@@ -112,7 +116,7 @@ type NotificationsResponse struct {
 
 func GetNotifications(systemId, accessToken string) (NotificationsResponse, error) {
 	n := NotificationsResponse{}
-	r, err := http.NewRequest("GET", fmt.Sprintf("https://api.myuplink.com/v2/systems/%s/notifications", systemId), nil)
+	r, err := http.NewRequest("GET", fmt.Sprintf("%s/v2/systems/%s/notifications", baseURL, systemId), nil)
 	if err != nil {
 		return n, err
 	}
@@ -162,7 +166,7 @@ func GetSystemsReauth(clientId, clientSecret string, oauth OAuthResponse) (Syste
 
 func GetDevice(deviceId, accessToken string) (DeviceResponse, error) {
 	d := DeviceResponse{}
-	r, err := http.NewRequest("GET", fmt.Sprintf("https://api.myuplink.com/v2/devices/%s", deviceId), nil)
+	r, err := http.NewRequest("GET", fmt.Sprintf("%s/v2/devices/%s", baseURL, deviceId), nil)
 	if err != nil {
 		return d, err
 	}
@@ -192,7 +196,7 @@ func GetDevice(deviceId, accessToken string) (DeviceResponse, error) {
 
 func GetSystems(accessToken string) (SystemsResponse, error) {
 	s := SystemsResponse{}
-	r, err := http.NewRequest("GET", "https://api.myuplink.com/v2/systems/me", nil)
+	r, err := http.NewRequest("GET", fmt.Sprintf("%s/v2/systems/me", baseURL), nil)
 	if err != nil {
 		return s, err
 	}
@@ -224,7 +228,7 @@ func OAuth(grantType, clientId, clientSecret string, values url.Values) (OAuthRe
 	for k, v := range values {
 		postForm[k] = v
 	}
-	resp, err := http.PostForm("https://api.myuplink.com/oauth/token", postForm)
+	resp, err := http.PostForm(fmt.Sprintf("%s/oauth/token", baseURL), postForm)
 	if err != nil {
 		return oauth, err
 	}
